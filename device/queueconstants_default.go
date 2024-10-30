@@ -7,13 +7,13 @@
 
 package device
 
-import "golang.zx2c4.com/wireguard/conn"
-
-const (
-	QueueStagedSize            = conn.IdealBatchSize
-	QueueOutboundSize          = 1024
-	QueueInboundSize           = 1024
-	QueueHandshakeSize         = 1024
-	MaxSegmentSize             = (1 << 16) - 1 // largest possible UDP datagram
-	PreallocatedBuffersPerPool = 0             // Disable and allow for infinite memory growth
+// Reduce memory requirements -- copy from iOS
+var (
+	QueueStagedSize                   = 128
+	QueueOutboundSize                 = 1024
+	QueueInboundSize                  = 1024
+	QueueHandshakeSize                = 1024
+	PreallocatedBuffersPerPool uint32 = 1024
 )
+
+const MaxSegmentSize = 1700

@@ -48,15 +48,15 @@ func (hs handshakeState) String() string {
 const (
 	NoiseConstruction = "Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s"
 	WGIdentifier      = "WireGuard v1 zx2c4 Jason@zx2c4.com"
-	WGLabelMAC1       = "mac1----"
+	WGLabelMAC1       = "salam---"
 	WGLabelCookie     = "cookie--"
 )
 
 const (
-	MessageInitiationType  = 1
-	MessageResponseType    = 2
-	MessageCookieReplyType = 3
-	MessageTransportType   = 4
+	MessageInitiationType  = 6
+	MessageResponseType    = 7
+	MessageCookieReplyType = 8
+	MessageTransportType   = 9
 )
 
 const (
