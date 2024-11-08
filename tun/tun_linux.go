@@ -513,7 +513,8 @@ func (tun *NativeTun) initFromFlags(name string) error {
 	if err != nil {
 		return err
 	}
-	if e := sc.Control(func(fd uintptr) {
+
+	f := func(fd uintptr) {
 		var (
 			ifr *unix.Ifreq
 		)
@@ -525,7 +526,17 @@ func (tun *NativeTun) initFromFlags(name string) error {
 		if err != nil {
 			return
 		}
+
 		got := ifr.Uint16()
+		// seems like we need to run any sort of instruction after the `got` line above on dd-wrt, else `tun` is nil
+		for {
+			if tun != nil {
+				break
+			}
+			fmt.Println("tun is nil")
+			time.Sleep(1 * time.Millisecond)
+		}
+
 		if got&unix.IFF_VNET_HDR != 0 {
 			// tunTCPOffloads were added in Linux v2.6. We require their support
 			// if IFF_VNET_HDR is set.
@@ -541,7 +552,9 @@ func (tun *NativeTun) initFromFlags(name string) error {
 		} else {
 			tun.batchSize = 1
 		}
-	}); e != nil {
+	}
+
+	if e := sc.Control(f); e != nil {
 		return e
 	}
 	return err
